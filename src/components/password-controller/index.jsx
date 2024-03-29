@@ -4,7 +4,7 @@ import classes from "./password-controller.module.css";
 import control from "../../assets/icons/control.svg";
 import Switch from "../switch";
 
-const PasswordController = () => {
+const PasswordController = ({ controllers, handleController }) => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
@@ -34,20 +34,35 @@ const PasswordController = () => {
               min={"1"}
               max={"64"}
               className={classes["length-slider"]}
+              value={controllers.length}
+              onChange={(e) =>
+                handleController("length", Number(e.target.value))
+              }
             />
-            <p className={classes["length-count"]}>12</p>
+            <p className={classes["length-count"]}>{controllers.length}</p>
           </div>
         </div>
 
         <Switch
           label="Uppercase Letters"
-          onChange={(v) => {
-            console.log(v);
-          }}
+          value={controllers.upper}
+          onChange={(value) => handleController("upper", value)}
         />
-        <Switch label="Lowercase Letters" value={true} onChange={() => {}} />
-        <Switch label="Numbers" onChange={() => {}} />
-        <Switch label="Symbols" onChange={() => {}} />
+        <Switch
+          label="Lowercase Letters"
+          value={controllers.lower}
+          onChange={(value) => handleController("lower", value)}
+        />
+        <Switch
+          label="Numbers"
+          value={controllers.number}
+          onChange={(value) => handleController("number", value)}
+        />
+        <Switch
+          label="Symbols"
+          value={controllers.symbol}
+          onChange={(value) => handleController("symbol", value)}
+        />
       </div>
     </div>
   );

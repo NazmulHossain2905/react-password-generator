@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./password-form.module.css";
 
 import copy from "../../assets/icons/copy.svg";
 
-const PasswordForm = () => {
+const PasswordForm = ({ password, setPassword, handlePassword }) => {
+  // const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopyPassword = async () => {
+    await navigator.clipboard.writeText(password);
+  };
+
   return (
     <>
       <div className={classes["password-input-wrapper"]}>
@@ -11,13 +17,15 @@ const PasswordForm = () => {
           type="text"
           className={classes["password-input"]}
           placeholder="Password"
-          value={"Pn7$e(4iL2kPn7$e(4iL2k"}
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
         />
 
         <img
           src={copy}
           alt="Copy-Icon"
           className={classes["input-copy-icon"]}
+          onClick={handleCopyPassword}
         />
       </div>
 
@@ -25,7 +33,15 @@ const PasswordForm = () => {
         <div className={classes["password-strength-meter"]}></div>
       </div>
 
-      <button className={classes["generate-button"]}>Generate Password</button>
+      <button onClick={handlePassword} className={classes["generate-button"]}>
+        Generate Password
+      </button>
+
+      {/* {isCopied && (
+        <div className={classes["alert-container"]}>
+          <div className={classes["alert"]}>Copied Successfully</div>
+        </div>
+      )} */}
     </>
   );
 };
