@@ -1,0 +1,36 @@
+.char-control-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switch-label {
+  font-size: 2rem;
+}
+
+.custom-switch {
+  width: 60px;
+  height: 30px;
+  background-image: linear-gradient(to bottom, #222, #cccccc2b);
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 0 1.5px dodgerblue;
+}
+
+.switch-handle {
+  width: 22.5px;
+  height: 22.5px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 4px;
+  transition: transform 0.3s, background-color 0.3s ease;
+}
+
+.custom-switch.on .switch-handle {
+  transform: translateX(30px);
+  background-color: dodgerblue;
+}
