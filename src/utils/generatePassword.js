@@ -5,6 +5,10 @@ export const generatePassword = (
   isNumber,
   isSymbol
 ) => {
+  if (!isUpperCase && !isLowerCase && !isNumber && !isSymbol) {
+    return "Select any option";
+  }
+
   const upperCharacter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const lowerCharacter = "abcdefghijklmnopqrstuvwxyz";
   const number = "0123456789";
@@ -30,7 +34,13 @@ export const generatePassword = (
     password += symbol[Math.floor(Math.random() * symbol.length)];
   }
 
-  const allCharacters = upperCharacter + lowerCharacter + number + symbol;
+  const allCharacters =
+    (isUpperCase ? upperCharacter : "") +
+    (isLowerCase ? lowerCharacter : "") +
+    (isNumber ? number : "") +
+    (isSymbol ? symbol : "");
+
+  if (!allCharacters) return;
 
   while (password.length < length) {
     password += allCharacters[Math.floor(Math.random() * allCharacters.length)];
