@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./password-generator.module.css";
 
 import PasswordForm from "../password-form";
@@ -8,8 +8,8 @@ import PasswordHistory from "../password-history";
 import { generatePassword } from "../../utils/generatePassword";
 
 const RandomPasswordGenerator = () => {
-  const [password, setPassword] = useState("Pn7$e(4iL2kPn7$e(4iL2k");
-
+  const [password, setPassword] = useState("");
+  const [passwordHistory, setPasswordHistory] = useState([]);
   const [controllers, setControllers] = useState({
     length: 12,
     upper: true,
@@ -26,6 +26,29 @@ const RandomPasswordGenerator = () => {
     const { length, upper, lower, number, symbol } = controllers;
     const pass = generatePassword(length, upper, lower, number, symbol);
     setPassword(pass);
+    handlePasswordHistory(pass);
+  };
+
+  const handlePasswordHistory = (value) => {
+    if (
+      value === undefined ||
+      value === null ||
+      value === "Select any option"
+    ) {
+      return;
+    }
+    if (passwordHistory.length >= 5) {
+      const copyHistory = [...passwordHistory];
+      copyHistory.pop();
+
+      // Another
+      // copyHistory.unshift(value);
+      // setPasswordHistory(copyHistory);
+
+      setPasswordHistory([value, ...copyHistory]);
+    } else {
+      setPasswordHistory((prev) => [value, ...prev]);
+    }
   };
 
   useEffect(() => {
@@ -49,7 +72,10 @@ const RandomPasswordGenerator = () => {
             controllers={controllers}
           />
         </div>
-        <PasswordHistory />
+        <PasswordHistory
+          passwordHistory={passwordHistory}
+          setPasswordHistory={setPasswordHistory}
+        />
       </div>
     </div>
   );

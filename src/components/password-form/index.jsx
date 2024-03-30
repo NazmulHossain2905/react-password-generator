@@ -2,12 +2,22 @@ import React, { useState } from "react";
 import classes from "./password-form.module.css";
 
 import copy from "../../assets/icons/copy.svg";
+import check from "../../assets/icons/check.svg";
 
 const PasswordForm = ({ password, setPassword, handlePassword }) => {
-  // const [isCopied, setIsCopied] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyPassword = async () => {
-    await navigator.clipboard.writeText(password);
+    try {
+      await navigator.clipboard.writeText(password);
+      setIsCopied(true);
+    } catch (error) {
+      setIsCopied(false);
+    } finally {
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -21,12 +31,20 @@ const PasswordForm = ({ password, setPassword, handlePassword }) => {
           value={password}
         />
 
-        <img
-          src={copy}
-          alt="Copy-Icon"
-          className={classes["input-copy-icon"]}
-          onClick={handleCopyPassword}
-        />
+        {isCopied ? (
+          <img
+            src={check}
+            alt="Copied-Icon"
+            className={classes["copied-icon"]}
+          />
+        ) : (
+          <img
+            src={copy}
+            alt="Copy-Icon"
+            className={classes["input-copy-icon"]}
+            onClick={handleCopyPassword}
+          />
+        )}
       </div>
 
       <div className={classes["password-strength-meter-container"]}>
