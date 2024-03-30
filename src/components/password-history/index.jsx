@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import classes from "./password-history.module.css";
 import copy from "../../assets/icons/copy.svg";
 import check from "../../assets/icons/check.svg";
@@ -7,7 +7,11 @@ const PasswordHistory = ({ passwordHistory, setPasswordHistory }) => {
   const [copied, setCopied] = useState(false);
   const [pass, setPass] = useState("");
 
-  const copyPassword = (text) => {
+  // const inputRefs = useRef([]);
+
+  const copyPassword = (text, index) => {
+    // inputRefs.current[index].select();
+
     setPass(text);
     navigator.clipboard
       .writeText(text)
@@ -32,17 +36,16 @@ const PasswordHistory = ({ passwordHistory, setPasswordHistory }) => {
 
       {passwordHistory?.length ? (
         <div className={classes["password-history-wrapper"]}>
-          {passwordHistory?.map((password) => (
-            <div
-              key={password}
-              onClick={() => copyPassword(password)}
-              className={classes["password-history"]}
-            >
-              <p className={classes["password-text"]}>
-                {password?.length > 29
-                  ? password.slice(0, 29) + "..."
-                  : password}
-              </p>
+          {passwordHistory?.map((password, i) => (
+            <div key={password} className={classes["password-history"]}>
+              <input
+                // ref={(el) => (inputRefs.current[i] = el)}
+                type="text"
+                defaultValue={password}
+                className={classes["password-text"]}
+                disabled
+              />
+
               {copied && pass === password ? (
                 <img
                   src={check}
@@ -51,6 +54,7 @@ const PasswordHistory = ({ passwordHistory, setPasswordHistory }) => {
                 />
               ) : (
                 <img
+                  onClick={() => copyPassword(password, i)}
                   src={copy}
                   alt="Copy-Icon"
                   className={classes["copy-icon"]}
@@ -63,13 +67,15 @@ const PasswordHistory = ({ passwordHistory, setPasswordHistory }) => {
         <p className={classes["empty-history"]}>No History</p>
       )}
 
-      {passwordHistory?.length && (
+      {passwordHistory?.length ? (
         <p
           className={classes["clear-history"]}
           onClick={() => setPasswordHistory([])}
         >
           Clear History
         </p>
+      ) : (
+        ""
       )}
     </div>
   );

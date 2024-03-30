@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./password-form.module.css";
+
+import { checkPasswordStrength } from "../../utils/checkPasswordStrength";
 
 import copy from "../../assets/icons/copy.svg";
 import check from "../../assets/icons/check.svg";
 
 const PasswordForm = ({ password, setPassword, handlePassword }) => {
   const [isCopied, setIsCopied] = useState(false);
+  const [strength, setStrength] = useState(0);
 
   const handleCopyPassword = async () => {
     try {
@@ -19,6 +22,25 @@ const PasswordForm = ({ password, setPassword, handlePassword }) => {
       }, 1000);
     }
   };
+
+  const handlePasswordStrength = () => {
+    const strength = checkPasswordStrength(password);
+    setStrength(strength);
+  };
+
+  useEffect(() => {
+    handlePasswordStrength();
+  }, [password]);
+
+  const meterColor =
+    password !== "Select any option" &&
+    (strength < 25
+      ? "var(--danger-color)"
+      : strength < 50
+      ? "var(--warning-color)"
+      : strength < 75
+      ? "var(--info-color)"
+      : "var(--success-color)");
 
   return (
     <>
@@ -48,7 +70,13 @@ const PasswordForm = ({ password, setPassword, handlePassword }) => {
       </div>
 
       <div className={classes["password-strength-meter-container"]}>
-        <div className={classes["password-strength-meter"]}></div>
+        <div
+          style={{
+            width: `${strength}%`,
+            backgroundColor: meterColor,
+          }}
+          className={classes["password-strength-meter"]}
+        ></div>
       </div>
 
       <button onClick={handlePassword} className={classes["generate-button"]}>
