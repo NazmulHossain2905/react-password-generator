@@ -10,7 +10,7 @@ The application generates random passwords based on user-selected options such a
 
 ## 📸 Screenshot
 
-<img src="https://awesomescreenshot.s3.amazonaws.com/image/4975440/63252847-f93497b3381abf7d23a07890a9baaa89.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20260903%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260903T070333Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&X-Amz-Signature=654d0c88d677d83217f7c7a1a21219e28c0fe6014cb71bab430ebb484ea9f9de" alt="React Password Generator" width="100%">
+<img src="./public/Password-Generator.png" alt="React Password Generator" width="100%">
 
 ## ✨ Features
 
